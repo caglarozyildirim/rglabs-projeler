@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RG Labs - Projeler</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0066cc;
+            --primary-dark: #0052a3;
+            --primary-light: #e6f2ff;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --text: #4b5563;
+            --text-light: #9ca3af;
+            --border: #e5e7eb;
+            --bg: #f9fafb;
+            --white: #ffffff;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 24px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .project-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-updated {
+            font-size: 12px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-body {
+            padding: 24px;
+        }
+
+        .project-url {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: var(--bg);
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text);
+            margin-bottom: 16px;
+            word-break: break-all;
+            border: 1px solid var(--border);
+        }
+
+        .project-url svg {
+            flex-shrink: 0;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .meta-badge {
+            padding: 6px 12px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .meta-badge.success {
+            background: #d1fae5;
+            color: var(--success);
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 102, 204, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 48px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 48px 16px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .search-input:focus {
+            outline: none;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            display: inline-block;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 RG Labs Projeler</h1>
+            <p>Tüm Vercel Projeleriniz Tek Bir Sayfada</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-icon">📦</div>
+                <div class="stat-value" id="totalProjects">12</div>
+                <div class="stat-label">Toplam Proje</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-value" id="activeProjects">11</div>
+                <div class="stat-label">Aktif Proje</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🌐</div>
+                <div class="stat-value" id="customDomains">2</div>
+                <div class="stat-label">Özel Domain</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-value">Node 22.x</div>
+                <div class="stat-label">Runtime</div>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="Proje ara...">
+            <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+            </svg>
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Projects will be inserted here by JavaScript -->
+        </div>
+
+        <div class="footer">
+            <p><strong>RG Labs</strong> • Vercel Deployment Dashboard</p>
+            <p style="margin-top: 8px; font-size: 12px;">Son güncelleme: <span id="lastUpdate"></span></p>
+        </div>
+    </div>
+
+    <script>
+        const projects = [
+            {
+                name: 'Magdeburger Süreç Yönetimi',
+                url: 'https://magdeburger-surec-yonetimi.vercel.app',
+                updated: '15 saat önce',
+                node: '22.x',
+                status: 'active',
+                description: 'Kurumsal süreç ve bütçe yönetim sistemi'
+            },
+            {
+                name: 'Döviz İşlem Uygulaması',
+                url: 'https://doviz-islem-app.vercel.app',
+                updated: '19 saat önce',
+                node: '22.x',
+                status: 'active',
+                description: 'Döviz alım-satım takip platformu'
+            },
+            {
+                name: 'Spor Yönetim Sistemi',
+                url: 'https://spor-delta.vercel.app',
+                updated: '22 saat önce',
+                node: '22.x',
+                status: 'active',
+                description: 'Spor kulübü ve etkinlik yönetimi'
+            },
+            {
+                name: 'Tez Medikal İzin Modülü',
+                url: 'https://tez-medikal-izin-modulu.vercel.app',
+                updated: '2 gün önce',
+                node: '22.x',
+                status: 'active',
+                description: 'Medikal personel izin takip sistemi'
+            },
+            {
+                name: 'Algoritmik Ehliyet',
+                url: 'https://algoritmik-ehliyet-html.vercel.app',
+                updated: '4 gün önce',
+                node: '22.x',
+                status: 'active',
+                description: 'Ehliyet sınav hazırlık platformu'
+            },
+            {
+                name: 'Frontend Portal',
+                url: 'https://frontend-dusky-rho-35.vercel.app',
+                updated: '6 gün önce',
+                node: '22.x',
+                status: 'active',
+                description: 'Genel amaçlı frontend uygulaması'
+            },
+            {
+                name: 'Maximo Yönetim',
+                url: 'https://maximo-phi.vercel.app',
+                updated: '19 gün önce',
+                node: '22.x',
+                status: 'active',
+                description: 'Varlık ve bakım yönetim sistemi'
+            },
+            {
+                name: 'Bakım Yönetim Uygulaması',
+                url: 'https://bakim-yonetim-app.vercel.app',
+                updated: '20 gün önce',
+                node: '22.x',
+                status: 'inactive',
+                description: 'Ekipman ve bakım planlama'
+            },
+            {
+                name: 'Tedarik Yönetimi Sistemi',
+                url: 'https://tedarik-yonetimi-sistemi.vercel.app',
+                updated: '20 gün önce',
+                node: '22.x',
+                status: 'active',
+                description: 'Tedarik zinciri yönetim platformu'
+            },
+            {
+                name: 'Tedarik Yönetimi V2',
+                url: 'https://tedarik-yonetimi-sistemi-f4he.vercel.app',
+                updated: '20 gün önce',
+                node: '22.x',
+                status: 'active',
+                description: 'Geliştirilmiş tedarik yönetimi'
+            },
+            {
+                name: 'Esra Çavuşoğlu',
+                url: 'https://esracavusoglu.com',
+                updated: '39 gün önce',
+                node: '22.x',
+                status: 'active',
+                customDomain: true,
+                description: 'Kişisel portföy websitesi'
+            },
+            {
+                name: 'Koray Kimya',
+                url: 'https://www.koraykimya.com',
+                updated: '40 gün önce',
+                node: '22.x',
+                status: 'active',
+                customDomain: true,
+                description: 'Kurumsal kimya şirketi websitesi'
+            }
+        ];
+
+        function renderProjects(projectsToRender = projects) {
+            const grid = document.getElementById('projectsGrid');
+            grid.innerHTML = '';
+
+            projectsToRender.forEach(project => {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+
+                const statusBadge = project.status === 'active'
+                    ? '<div class="meta-badge success"><span class="status-indicator"></span> Aktif</div>'
+                    : '<div class="meta-badge">Pasif</div>';
+
+                const customDomainBadge = project.customDomain
+                    ? '<div class="meta-badge">🌐 Özel Domain</div>'
+                    : '';
+
+                card.innerHTML = `
+                    <div class="project-header">
+                        <div class="project-name">${project.name}</div>
+                        <div class="project-updated">📅 ${project.updated}</div>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-url">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                            </svg>
+                            ${project.url}
+                        </div>
+                        <p style="color: var(--text); font-size: 14px; margin-bottom: 16px; line-height: 1.6;">
+                            ${project.description}
+                        </p>
+                        <div class="project-meta">
+                            ${statusBadge}
+                            <div class="meta-badge">⚡ Node ${project.node}</div>
+                            ${customDomainBadge}
+                        </div>
+                        <div class="project-actions">
+                            <a href="${project.url}" target="_blank" class="btn btn-primary">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                                Aç
+                            </a>
+                            <button class="btn btn-secondary" onclick="copyToClipboard('${project.url}')">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
+                                Kopyala
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✓ URL kopyalandı: ' + text);
+            });
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = projects.filter(project =>
+                project.name.toLowerCase().includes(searchTerm) ||
+                project.description.toLowerCase().includes(searchTerm) ||
+                project.url.toLowerCase().includes(searchTerm)
+            );
+            renderProjects(filtered);
+        });
+
+        // Update stats
+        document.getElementById('totalProjects').textContent = projects.length;
+        document.getElementById('activeProjects').textContent = projects.filter(p => p.status === 'active').length;
+        document.getElementById('customDomains').textContent = projects.filter(p => p.customDomain).length;
+
+        // Set last update time
+        document.getElementById('lastUpdate').textContent = new Date().toLocaleString('tr-TR', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        // Initial render
+        renderProjects();
+    </script>
+</body>
+</html>
