@@ -3,24 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RG Labs - Projeler</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>RG Labs - Project Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0066cc;
-            --primary-dark: #0052a3;
-            --primary-light: #e6f2ff;
-            --success: #10b981;
+            --gradient-start: #2DDFBA;
+            --gradient-mid: #2565BC;
+            --gradient-end: #1F00BF;
+            --primary: #2565BC;
+            --primary-dark: #1F00BF;
+            --primary-light: #e6f0ff;
+            --success: #2DDFBA;
             --warning: #f59e0b;
             --danger: #ef4444;
-            --dark: #1f2937;
-            --text: #4b5563;
-            --text-light: #9ca3af;
-            --border: #e5e7eb;
-            --bg: #f9fafb;
+            --dark: #0f172a;
+            --text: #334155;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --bg: #f8fafc;
             --white: #ffffff;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.15);
         }
 
         * {
@@ -31,34 +35,94 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-mid) 50%, var(--gradient-end) 100%);
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 0;
             color: var(--dark);
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(45, 223, 186, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(31, 0, 191, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 48px;
+            margin-bottom: 64px;
             color: white;
         }
 
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 24px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .logo-container svg {
+            height: 48px;
+            width: auto;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+        }
+
         .header h1 {
-            font-size: 48px;
-            font-weight: 800;
+            font-size: 32px;
+            font-weight: 700;
             margin-bottom: 12px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            color: white;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            letter-spacing: -0.02em;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
         }
 
         .header p {
-            font-size: 18px;
-            opacity: 0.95;
+            font-size: 17px;
+            color: rgba(255, 255, 255, 0.9);
             font-weight: 500;
+            letter-spacing: -0.01em;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .stats {
@@ -69,34 +133,69 @@
         }
 
         .stat-card {
-            background: white;
-            padding: 24px;
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 28px;
+            border-radius: 20px;
             text-align: center;
             box-shadow: var(--shadow-lg);
-            transition: transform 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .stat-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
         }
 
         .stat-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            background: linear-gradient(135deg, var(--gradient-mid), var(--gradient-end));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
         }
 
         .stat-value {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 4px;
+            background: linear-gradient(135deg, var(--gradient-mid), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
         }
 
         .stat-label {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-light);
             font-weight: 600;
+            letter-spacing: -0.01em;
         }
 
         .projects-grid {
@@ -108,21 +207,23 @@
 
         .project-card {
             background: white;
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
             box-shadow: var(--shadow-lg);
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
+            border: 1px solid var(--border);
         }
 
         .project-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(37, 101, 188, 0.2);
         }
 
         .project-header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            padding: 24px;
+            background: linear-gradient(135deg, var(--gradient-mid), var(--gradient-end));
+            padding: 28px;
             color: white;
             position: relative;
             overflow: hidden;
@@ -131,17 +232,14 @@
         .project-header::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(255,255,255,0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255,255,255,0.1) 0%, transparent 40%);
+            pointer-events: none;
         }
 
         .project-name {
@@ -188,20 +286,23 @@
         }
 
         .meta-badge {
-            padding: 6px 12px;
-            background: var(--primary-light);
+            padding: 7px 14px;
+            background: linear-gradient(135deg, #e6f0ff, #f0f5ff);
             color: var(--primary);
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 12px;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 6px;
+            border: 1px solid rgba(37, 101, 188, 0.15);
+            letter-spacing: -0.01em;
         }
 
         .meta-badge.success {
-            background: #d1fae5;
-            color: var(--success);
+            background: linear-gradient(135deg, #d1fae5, #e0fdf4);
+            color: #059669;
+            border-color: rgba(16, 185, 129, 0.2);
         }
 
         .project-actions {
@@ -249,16 +350,18 @@
         .footer {
             text-align: center;
             color: white;
-            margin-top: 48px;
-            padding: 24px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            backdrop-filter: blur(10px);
+            margin-top: 64px;
+            padding: 32px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .footer p {
             font-size: 14px;
-            opacity: 0.9;
+            opacity: 0.95;
+            letter-spacing: -0.01em;
         }
 
         @media (max-width: 768px) {
@@ -277,31 +380,41 @@
 
         .search-box {
             max-width: 600px;
-            margin: 0 auto 40px;
+            margin: 0 auto 48px;
             position: relative;
         }
 
         .search-input {
             width: 100%;
-            padding: 16px 48px 16px 20px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
+            padding: 18px 52px 18px 24px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 16px;
+            font-size: 15px;
             font-family: 'Inter', sans-serif;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s;
+            color: var(--dark);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-light);
         }
 
         .search-input:focus {
             outline: none;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+            border-color: rgba(37, 101, 188, 0.4);
+            box-shadow: var(--shadow-xl), 0 0 0 4px rgba(37, 101, 188, 0.1);
         }
 
         .search-icon {
             position: absolute;
-            right: 16px;
+            right: 20px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-light);
+            pointer-events: none;
         }
 
         .status-indicator {
@@ -322,35 +435,40 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 RG Labs Projeler</h1>
-            <p>Tüm Vercel Projeleriniz Tek Bir Sayfada</p>
+            <div class="logo-container">
+                <svg width="118" height="30" viewBox="0 0 118 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M49.8617 29.4081H41.6923C38.5553 29.4081 36.0041 26.8223 36.0041 23.6429V2.18424C36.0041 1.30343 36.7088 0.589202 37.5779 0.589202C38.4469 0.589202 39.1516 1.30343 39.1516 2.18424V23.6429C39.1516 25.0625 40.2917 26.218 41.6923 26.218H49.8617C50.7308 26.218 51.4355 26.9322 51.4355 27.813C51.4355 28.6938 50.7308 29.4081 49.8617 29.4081ZM69.6505 27.7847C70.357 26.7709 70.5353 25.4683 70.1279 24.2986L62.887 2.83644C62.3851 1.35128 61.0649 0.394251 59.5174 0.394251H59.4965C57.9402 0.403113 56.62 1.37609 56.1322 2.87366L50.0436 20.0523C49.7708 20.8888 50.2202 21.7909 51.0455 22.0673C51.8691 22.342 52.7609 21.8883 53.0337 21.0518L59.1223 3.87322C59.1835 3.68358 59.3164 3.58611 59.514 3.58433C59.708 3.58965 59.8444 3.67827 59.9091 3.8679L67.1535 25.3389L67.1605 25.3567C67.2567 25.6314 67.1518 25.8423 67.0801 25.945C67.0084 26.0478 66.8475 26.218 66.5608 26.218H58.1343C57.2653 26.218 56.5606 26.9322 56.5606 27.813C56.5606 28.6938 57.2653 29.4081 58.1343 29.4081H66.5608C67.7883 29.4081 68.9441 28.8019 69.6523 27.7847H69.6505ZM84.8405 29.4045C88.8553 29.1139 92.1916 27.0137 93.3422 24.0558C94.1361 22.0142 94.2777 18.6982 90.4343 14.5033C90.3276 14.3881 90.3032 14.2179 90.3731 14.0815C91.4257 12.0221 92.9505 8.09299 91.3436 4.92594C90.2717 2.81163 88.0842 1.50015 84.844 1.02518C83.4329 0.817824 80.3554 0.674271 78.1207 0.707944C76.0381 0.739844 74.3438 2.48198 74.3438 4.58921V24.9402C74.3438 27.4001 76.3179 29.4258 78.7432 29.4577C79.7644 29.4719 80.6754 29.4772 81.4745 29.4772C83.0203 29.4772 84.1464 29.4524 84.8371 29.401L84.8405 29.4045ZM84.3964 4.18336C86.5699 4.50237 87.9653 5.24318 88.5458 6.38452C89.5425 8.34819 88.2013 11.3947 87.5788 12.614C86.9004 13.9415 87.1207 15.572 88.1279 16.6725C89.6334 18.3172 91.2526 20.7293 90.4133 22.8861C89.7156 24.6814 87.3848 26.023 84.6132 26.2233C83.6795 26.2906 81.6109 26.3084 78.7852 26.2711C78.0717 26.2623 77.493 25.6668 77.493 24.9437V4.59276C77.493 4.21704 77.7972 3.90689 78.1714 3.90157C78.3708 3.89803 78.5806 3.89625 78.7957 3.89625C80.7646 3.89625 83.2843 4.02209 84.3947 4.18513L84.3964 4.18336ZM115.051 16.9845C115.042 16.9738 115.033 16.965 115.025 16.9561C113.757 15.7102 112.192 14.8081 110.38 14.2747C108.739 13.7518 107.042 13.2503 105.343 12.7806C103.804 12.3482 102.482 11.7261 101.421 10.9375C100.49 10.2197 100.038 9.29281 100.038 8.10185C100.038 6.46604 100.511 5.29103 101.484 4.50946C102.508 3.6889 104.126 3.27242 106.292 3.27242C109.604 3.27242 111.372 4.09298 112.272 4.78062C112.956 5.30344 113.902 5.21659 114.474 4.58035C114.761 4.26311 114.904 3.83423 114.869 3.40534C114.834 2.98176 114.626 2.58832 114.297 2.3278C112.975 1.27684 110.482 0.0238478 106.107 0.0238478C103.496 0.0238478 101.288 0.677815 99.5427 1.96625C97.7347 3.29191 96.8184 5.3247 96.8184 8.00969C96.8184 10.0372 97.5056 11.7031 98.8625 12.9632C100.123 14.1346 101.66 15.0137 103.437 15.579C103.444 15.5826 103.453 15.5844 103.46 15.5861C104.949 16.0221 106.539 16.4935 108.462 17.0695C108.469 17.0713 108.478 17.0748 108.485 17.0766C110.04 17.5055 111.363 18.1648 112.423 19.0367C113.371 19.8165 113.832 20.8126 113.832 22.0797C113.832 23.2601 113.204 24.2898 111.914 25.2291C111.914 25.2291 111.898 25.2415 111.891 25.2468C110.865 26.0018 108.973 26.8666 105.754 26.7266C102.236 26.5724 100.314 25.6065 99.4798 25.043C98.824 24.5999 97.9672 24.7009 97.4409 25.2875L97.4322 25.2982C97.1174 25.6473 96.9653 26.117 97.0125 26.5848C97.0597 27.0509 97.3028 27.4781 97.677 27.7528C98.5705 28.4085 99.6354 28.9242 100.852 29.2875C102.521 29.7412 104.225 29.9699 105.92 29.9699C109.414 29.9699 112.147 29.2698 114.044 27.891C116.037 26.4431 117.048 24.4723 117.048 22.0319C117.048 19.969 116.376 18.2711 115.049 16.9827L115.051 16.9845ZM29.62 2.1612C26.3414 -0.309339 21.2915 -0.621258 17.6702 1.01809C18.3154 1.65434 19.0935 2.54224 19.73 3.62687C22.269 2.81694 25.656 3.14836 27.7438 4.72036C28.4415 5.24672 29.4277 5.09963 29.9453 4.39249C30.4629 3.68535 30.3195 2.68579 29.6218 2.1612H29.62ZM21.7776 29.9911C21.8895 29.9894 21.9927 29.9876 22.0766 29.9876H22.0888C26.0861 29.9876 29.3193 28.2437 30.956 25.2007C32.3356 22.638 32.2866 19.6198 30.8266 17.3247C29.3158 14.9517 26.5198 13.7341 23.1502 13.9876C22.2829 14.0531 21.6325 14.817 21.6972 15.696C21.7619 16.5751 22.5173 17.2343 23.3828 17.1688C25.5965 17.0022 27.3014 17.6703 28.1809 19.0527C29.0028 20.3447 29.008 22.1595 28.1932 23.673C27.123 25.6597 24.8988 26.7975 22.0801 26.7975H22.0696C21.9647 26.7975 21.8475 26.7993 21.7199 26.8028C20.3875 26.8259 17.9097 26.8702 15.2519 25.043C13.5033 23.8254 12.4489 21.945 12.4996 20.1214C12.5223 19.0403 13.2445 18.4537 14.6241 17.4258C15.7485 16.5892 17.0232 15.6393 17.8065 14.0886C18.7036 12.3819 19.0935 10.0868 18.8225 8.09122C18.4151 5.09608 16.9655 2.82758 14.5105 1.3495C11.7669 -0.374913 8.05815 -0.438714 5.05407 1.18823C1.98704 2.85062 0.16151 5.90601 0.0478516 9.57106C0.0478516 9.58701 0.0478516 9.60473 0.0478516 9.62068V27.8254C0.0478516 28.7062 0.752534 29.4205 1.62158 29.4205C2.49063 29.4205 3.19532 28.7062 3.19532 27.8254V9.64727C3.31072 6.24806 5.33734 4.65124 6.53862 4.00082C8.57398 2.89847 11.0552 2.92505 12.8615 4.06639C12.872 4.07348 12.8825 4.0788 12.893 4.08589C13.9247 4.70441 15.3393 5.83866 15.7047 8.52542C15.8848 9.85108 15.6121 11.4869 15.0245 12.5963C15.0193 12.607 15.014 12.6176 15.0088 12.6282C14.5664 13.5126 13.6904 14.1648 12.7619 14.8542C11.2686 15.9654 9.40981 17.3478 9.35211 20.0416C9.27167 22.9251 10.8506 25.8493 13.477 27.6783C16.5581 29.7962 19.4467 30 21.1568 30C21.3842 30 21.5905 29.9965 21.7741 29.9929L21.7776 29.9911Z" fill="white"/>
+                </svg>
+            </div>
+            <h1>Project Portfolio</h1>
+            <p>Enterprise-Grade Deployment Dashboard</p>
         </div>
 
         <div class="stats">
             <div class="stat-card">
-                <div class="stat-icon">📦</div>
+                <div class="stat-icon">12</div>
                 <div class="stat-value" id="totalProjects">12</div>
-                <div class="stat-label">Toplam Proje</div>
+                <div class="stat-label">Total Projects</div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">✅</div>
+                <div class="stat-icon">11</div>
                 <div class="stat-value" id="activeProjects">11</div>
-                <div class="stat-label">Aktif Proje</div>
+                <div class="stat-label">Active</div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">🌐</div>
+                <div class="stat-icon">2</div>
                 <div class="stat-value" id="customDomains">2</div>
-                <div class="stat-label">Özel Domain</div>
+                <div class="stat-label">Custom Domains</div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon">⚡</div>
+                <div class="stat-icon">v22</div>
                 <div class="stat-value">Node 22.x</div>
                 <div class="stat-label">Runtime</div>
             </div>
         </div>
 
         <div class="search-box">
-            <input type="text" class="search-input" id="searchInput" placeholder="Proje ara...">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search projects...">
             <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="m21 21-4.35-4.35"></path>
@@ -362,8 +480,8 @@
         </div>
 
         <div class="footer">
-            <p><strong>RG Labs</strong> • Vercel Deployment Dashboard</p>
-            <p style="margin-top: 8px; font-size: 12px;">Son güncelleme: <span id="lastUpdate"></span></p>
+            <p><strong>RG Labs</strong> • Enterprise Deployment Dashboard</p>
+            <p style="margin-top: 8px; font-size: 12px;">Last updated: <span id="lastUpdate"></span></p>
         </div>
     </div>
 
